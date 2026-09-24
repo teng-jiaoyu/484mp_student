@@ -6,7 +6,7 @@ world:
 
 lanes:
   left:
-    offset: 1.65  # post-scale meters
+    offset: 3.0   # post-scale meters
 
   right:
-    offset: -1.65 # post-scale meters
+    offset: -3.0 # post-scale meters

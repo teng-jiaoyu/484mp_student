@@ -40,8 +40,9 @@ def main():
     for pt in bev_world_coords:
         ##### YOUR CODE STARTS HERE #####
 
-        # Apply the supplied base-to-camera extrinsics and camera intrinsics.
-        camera_pt = R @ pt + t
+        # In this template, t is the camera center in the world frame.
+        # Subtract the camera center before rotating into camera coordinates.
+        camera_pt = R @ (pt - t)
         pixel_h = K @ camera_pt
         # Divide by optical depth; homography corners may lie outside the image.
         src.append(pixel_h[:2] / pixel_h[2])
