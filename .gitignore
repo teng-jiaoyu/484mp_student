@@ -1,0 +1,5 @@
+# Reproducible BEV configs and local diagnostic images.
+/code/src/mp1/data/bev_config*.json
+/code/src/mp1/data/bev_validation/
+__pycache__/
+*.py[cod]
