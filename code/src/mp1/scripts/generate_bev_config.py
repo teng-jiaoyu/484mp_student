@@ -40,6 +40,12 @@ def main():
     for pt in bev_world_coords:
         ##### YOUR CODE STARTS HERE #####
 
+        # Apply the supplied base-to-camera extrinsics and camera intrinsics.
+        camera_pt = R @ pt + t
+        pixel_h = K @ camera_pt
+        # Divide by optical depth; homography corners may lie outside the image.
+        src.append(pixel_h[:2] / pixel_h[2])
+
         ##### YOUR CODE ENDS HERE #####
         pass
     src = np.float32(src)

@@ -367,11 +367,18 @@ class LaneVisualizer(Node):
         # calculate cross track error
         # hint: |XTE| = distance between camera and closest point
         #       on ploly_px however XTE is not a strictly positive value
-        XTE = 0
+        # Use metres and make XTE positive when the vehicle is right of the path,
+        # consistent with the displayed ground truth (-WorldGT.XTE).
+        offset_m = camera_m - closest_m
+        XTE = np.sign(offset_m[0]) * np.linalg.norm(offset_m)
 
         # hint: find derivative of the polynomial at the closest point
         #       then use arctan on the scaled slope
-        HE = 0
+        # For x = P(y), convert dx/dy from pixels to metres before taking atan.
+        # BEV y points down: positive slope means the forward path heads left.
+        # Return radians; the existing display code converts HE to degrees.
+        slope_px = np.polyval(np.polyder(poly_px), closest_px[1])
+        HE = np.arctan((Sx / Sy) * slope_px)
 
         ##### YOUR CODE ENDS HERE #####
 
