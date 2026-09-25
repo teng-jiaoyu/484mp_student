@@ -17,11 +17,11 @@ from simple_enet import SimpleENet
 
 ##### YOUR CODE STARTS HERE #####
 
-BATCH_SIZE = 
-LR = 
-EPOCHS = 
-TRAIN_VAL_SPLIT = 
-CHECKPOINT_EVERY =  # epochs
+BATCH_SIZE = 8
+LR = 0.001
+EPOCHS = 20
+TRAIN_VAL_SPLIT = 0.8 
+CHECKPOINT_EVERY = 5 # epochs
 
 def loss_fn(y, yp):
     """
@@ -30,8 +30,7 @@ def loss_fn(y, yp):
     :param y: torch.Tensor [B, H, W]
     :param yp: torch.Tensor [B, num_classes, H, W]
     """
-    raise NotImplementedError("FILL THIS OUT")
-
+    return F.cross_entropy(yp, y) 
 
 ##### YOUR CODE ENDS HERE #####
 
@@ -113,6 +112,9 @@ def train():
             )
 
             avg_train_loss = train_loss / len(train_dataset)
+
+            #change1: eval()
+            model = model.eval()
 
             for (x, y) in val_loader:
                 with torch.no_grad():

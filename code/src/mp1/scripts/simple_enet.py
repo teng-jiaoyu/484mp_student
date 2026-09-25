@@ -21,12 +21,36 @@ class InitialBlock(nn.Module):
             4. Concatenate $f_1$ and $f_2$ along the second dimension (axis=1)--> Batch Norm --> Activation --> Output with the shape of (out_channels, 192, 320)
         """
         ##### YOUR CODE STARTS HERE #####
-        
+
+        #prepare the layers
+        self.main_conv = nn.Conv2d(in_channels, out_channels-in_channels, 3, 2, 1)
+        self.max = nn.MaxPool2d(2, 2)
+
+        #prepare Batch Norm
+        self.batch_norm = nn.BatchNorm2d(out_channels)
+
+        #prepare Activation
+        self.out_activation = activation()
+
         ##### YOUR CODE ENDS HERE #####
         
     def forward(self, x):
         ##### YOUR CODE STARTS HERE #####
-        pass
+
+        #conv layer -> f_1, max layer -> f_2
+        f_1 = self.main_conv(x)
+        f_2 = self.max(x)
+
+        #Concatenate $f_1$ and $f_2$ along the second dimension (axis=1)
+        out = torch.cat((f_1, f_2), 1)
+        
+        #Batch Norm
+        out = self.batch_norm(out)
+
+        #Activation
+        out = self.out_activation(out)
+
+        return out        
         ##### YOUR CODE ENDS HERE #####
 
 
